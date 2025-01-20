@@ -5,11 +5,11 @@ from sklearn.metrics import accuracy_score
 
 # Assuming your training data is stored in a DataFrame called df
 # Make sure to preprocess your data appropriately before training the model
-df = pd.read_csv('C:/Users/Barry/Documents/Uni/Projects/Object Tracking/Pose Estimation/Gunestimation/XGboost/level2/dataset/dataset.csv')
+df = pd.read_csv('/path/to/your/directory/level2/dataset/dataset.csv')
 
 # Define features (X) and target variable (y)
 X = df.drop(['label', 'image_name'], axis=1)  # Assuming 'label' is the column containing the target variable
-y = df['label'].map({'gun': 0, 'nongun': 1})  # Convert labels to 0 and 1
+y = df['label'].map({'pose': 0, 'nonpose': 1})  # Convert labels to 0 and 1
 
 # Split the data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -28,4 +28,4 @@ accuracy = accuracy_score(y_test, y_pred)
 print(f"Accuracy: {accuracy}")
 
 # Save the trained model
-model.save_model("C:/Users/Barry/Documents/Uni/Projects/Object Tracking/Pose Estimation/Gunestimation/XGboost/level3/model_weights.xgb")
+model.save_model("/path/to/your/directory/level3/model_weights.xgb")
