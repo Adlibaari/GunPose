@@ -5,13 +5,12 @@ import pandas as pd
 import time
 
 # Load models on GPU if available
-model_yolo_pose = YOLO('yolov8n-pose.pt').to('cpu')
+model_yolo_pose = YOLO('yolov8n-pose.pt')
 model_xgb = xgb.Booster()
-model_xgb.load_model('C:/Users/Barry/Documents/Uni/Projects/Object Tracking/Pose Estimation/Gunestimation/XGboost/level3/model_weights.xgb') # Assume this model has been optimized/quantized
-model_yolo_gun = YOLO("best.pt").to('cpu')
+model_xgb.load_model('/path/to/your/directory/level3/model_weights.xgb') # Assume this model has been optimized/quantized
 
 # Load video
-video_path = "videoplayback.mp4"
+video_path = "/path/to/your/video"
 cap = cv2.VideoCapture(video_path)
 
 # Video properties
@@ -21,7 +20,7 @@ height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT) * 0.5)  # Downscale height by 50
 
 # Define codec and create VideoWriter object
 fourcc = cv2.VideoWriter_fourcc('F', 'M', 'P', '4')
-output_path = "C:/Users/Barry/Documents/Uni/Projects/Object Tracking/Pose Estimation/Gunestimation/XGboost/level4/cpu.avi"
+output_path = "/path/to/your/directory/level4/results.avi"
 out = cv2.VideoWriter(output_path, fourcc, fps, (width * 2, height * 2))  # Scaled back up for writing
 
 frame_tot = 0
@@ -38,7 +37,7 @@ while cap.isOpened():
         break
 
     # Resize frame for faster processing
-    # frame = cv2.resize(frame, (width, height))
+    frame = cv2.resize(frame, (width, height))
     annotated_frame = frame.copy()
 
     # Run detection every nth frame
@@ -72,18 +71,6 @@ while cap.isOpened():
                     if binary_predictions == 0:
                         cv2.rectangle(annotated_frame, (int(x1), int(y1)), (int(x2), int(y2)), (255, 0, 0), 2)
                         cv2.putText(annotated_frame, 'gun pose', (int(x1), int(y1)), cv2.FONT_HERSHEY_DUPLEX, 1.0, (255, 0, 0), 3)
-
-                        # Custom YOLO model for gun detection
-                        # gun_results = model_yolo_gun(frame, verbose=False)
-                        # for gun in gun_results:
-                        #     gun_boxes = gun.boxes.xyxy
-                        #     gun_conf = gun.boxes.conf.tolist()
-                        #     if any(g > 0.3 for g in gun_conf):
-                        #         gun_detected = True
-                        #         break
-
-        # if gun_detected:
-        #     cv2.putText(annotated_frame, 'Gun Detected', (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 0, 255), 2)
 
     # Calculate and display processing FPS
     end_time = time.time()
