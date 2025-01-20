@@ -5,10 +5,10 @@ import os
 
 # Ensure directories exist
 os.makedirs('/level2/image', exist_ok=True)
-os.makedirs('/level2/gun', exist_ok=True)
+os.makedirs('/level2/object', exist_ok=True)
 
 model = YOLO('yolov8n-pose.pt')
-video_path = "standgun.mp4"
+video_path = "/path/to/your/directory"
 cap = cv2.VideoCapture(video_path)
 
 frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -27,7 +27,7 @@ while cap.isOpened():
         print(f"Failed to read frame {i}.")
         break
 
-    image_path = f'C:/Users/Barry/Documents/Uni/Projects/Object Tracking/Pose Estimation/Gunestimation/XGboost/level2/image/img_{i}.jpg'
+    image_path = f'/path/to/your/directory/level2/image/img_{i}.jpg'
     cv2.imwrite(image_path, frame)
 
     results = model(frame, verbose=False)
@@ -50,7 +50,7 @@ while cap.isOpened():
                     print(f"Skipping empty image for person_{a}.jpg")
                     continue
 
-                output_path = f'C:/Users/Barry/Documents/Uni/Projects/Object Tracking/Pose Estimation/Gunestimation/XGboost/level2/gun/person_{a}.jpg' 
+                output_path = f'/path/to/your/directory/level2/gun/person_{a}.jpg' 
                 cv2.imwrite(output_path, pict)
 
                 data = {'image_name': f'person_{a}.jpg'}
