@@ -5,7 +5,7 @@ import cv2
 model = YOLO('yolov8n-pose.pt')
 
 # change the video path to where you save your video
-video_path = "Shootgun.mp4"
+video_path = "/path/to/your/directory"
 cap = cv2.VideoCapture(video_path)
 
 # Get video properties
@@ -31,8 +31,7 @@ while cap.isOpened():
         annotated_frame = results[0].plot(boxes = False)
 
         # Display the annotated frame
-        # cv2_imshow(annotated_frame) # run this if you use google colab
-        # cv2.imshow(annotated_frame) # run this if you use your personal device
+        cv2.imshow(annotated_frame) # run this if you use your personal device
 
         # save the video
         out.write(annotated_frame)
